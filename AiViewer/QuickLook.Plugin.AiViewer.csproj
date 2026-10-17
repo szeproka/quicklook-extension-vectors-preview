@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- QuickLook 4.x runs on .NET Framework 4.6.2 (see QuickLook.exe.config) -->
+    <TargetFramework>net462</TargetFramework>
+    <AssemblyName>QuickLook.Plugin.AiViewer</AssemblyName>
+    <RootNamespace>QuickLook.Plugin.AiViewer</RootNamespace>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <Version>1.0.0</Version>
+    <Nullable>disable</Nullable>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="System.Xaml" />
+    <!-- Compile against QuickLook's own copy, but never ship it: a second copy breaks type identity. -->
+    <Reference Include="QuickLook.Common">
+      <HintPath>lib\QuickLook.Common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="QuickLook.Plugin.Metadata.config" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

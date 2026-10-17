@@ -1,0 +1,11 @@
+# Build output
+AiViewer/bin/
+AiViewer/obj/
+AiViewer/dist/
+
+# Copied from the installed QuickLook by install.ps1 (not ours to redistribute here)
+AiViewer/lib/
+
+# IDE
+.vs/
+*.user
