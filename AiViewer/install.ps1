@@ -1,6 +1,7 @@
 # Builds the AiViewer QuickLook plugin, installs it for the current user and restarts QuickLook.
 # Also writes dist\QuickLook.Plugin.AiViewer.qlplugin (open it with QuickLook on another PC to install).
-param([switch]$NoBuild, [switch]$NoRestart)
+# -PackageOnly: build and write the .qlplugin, without installing or touching QuickLook.
+param([switch]$NoBuild, [switch]$NoRestart, [switch]$PackageOnly)
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 $name = 'QuickLook.Plugin.AiViewer'
@@ -30,7 +31,8 @@ $pdfium = Join-Path $appDir 'QuickLook.Plugin\QuickLook.Plugin.PDFViewer\x64\pdf
 if (-not (Test-Path $pdfium)) { throw "pdfium.dll not found ($pdfium)." }
 Copy-Item $pdfium (Join-Path $out 'pdfium_ai.dll') -Force
 
-$files = 'QuickLook.Plugin.AiViewer.dll', 'QuickLook.Plugin.Metadata.config', 'pdfium_ai.dll' | ForEach-Object { Join-Path $out $_ }
+$files = @('QuickLook.Plugin.AiViewer.dll', 'QuickLook.Plugin.Metadata.config', 'pdfium_ai.dll' | ForEach-Object { Join-Path $out $_ }) +
+    (Join-Path $root 'THIRD-PARTY-NOTICES.txt') + (Join-Path $root '..\LICENSE')
 
 # .qlplugin = zip of the plugin folder's contents.
 $dist = Join-Path $root 'dist'
@@ -38,6 +40,7 @@ New-Item -ItemType Directory -Force $dist | Out-Null
 $zip = Join-Path $dist "$name.zip"
 Compress-Archive -Path $files -DestinationPath $zip -Force
 Move-Item $zip ([IO.Path]::ChangeExtension($zip, '.qlplugin')) -Force
+if ($PackageOnly) { "Packaged $([IO.Path]::ChangeExtension($zip, '.qlplugin'))"; return }
 
 $running = Get-Process QuickLook -ErrorAction SilentlyContinue
 if ($running -and -not $NoRestart) { $running | Stop-Process -Force; Start-Sleep -Milliseconds 800 }

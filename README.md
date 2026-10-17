@@ -33,6 +33,19 @@ shows it over a background you choose.
 
 ## Install
 
+### From a release (no build needed)
+
+1. Download `QuickLook.Plugin.AiViewer.qlplugin` from the
+   [latest release](https://github.com/szeproka/quicklook-extension-vectors-preview/releases/latest).
+
+2. Select the file in Explorer and press Space. QuickLook shows an install page: click **Install**.
+
+3. Restart QuickLook (right-click its tray icon → Quit, then start it again).
+
+It needs 64-bit QuickLook 4.x on Windows.
+
+### From source
+
 On a PC with QuickLook (Store or installer version) and the .NET SDK:
 
 ```powershell
@@ -49,8 +62,8 @@ The script will:
 
 4. Restart QuickLook.
 
-It also writes `AiViewer\dist\QuickLook.Plugin.AiViewer.qlplugin`. To install on another PC, open that
-file with QuickLook (select it, press Space) and click Install.
+It also writes `AiViewer\dist\QuickLook.Plugin.AiViewer.qlplugin`, the file attached to releases.
+`install.ps1 -PackageOnly` only builds that file, without installing anything.
 
 **Uninstall:** delete the `QuickLook.Plugin.AiViewer` folder from QuickLook's `QuickLook.Plugin` data
 folder, then restart QuickLook.
@@ -85,3 +98,12 @@ Notes:
 ```powershell
 powershell -STA -File AiViewer\tools\test-render.ps1 -PluginDir AiViewer\bin\Release -Files AiViewer\test\white-on-white.ai -OutDir out
 ```
+
+---
+
+## License
+
+[GPL-3.0](LICENSE), like QuickLook itself.
+
+The release package bundles pdfium (BSD-3-Clause / Apache-2.0). See
+[THIRD-PARTY-NOTICES.txt](AiViewer/THIRD-PARTY-NOTICES.txt).
